@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "wallet-providers",
+  "name": "Lendscape Wallet Providers",
   "icons": [
     {
       "src": "favicon.ico",
