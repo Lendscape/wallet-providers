@@ -6,7 +6,7 @@ import {
     UserRejectedRequestError as UserRejectedRequestErrorInjected,
 } from "@web3-react/injected-connector";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
-import { useWallet, WalletStatus } from '@terra-money/wallet-provider';
+import { useWallet,ConnectType, WalletStatus } from '@terra-money/wallet-provider';
 
 import {
     URI_AVAILABLE,
@@ -101,9 +101,13 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         sessionStorage.close = false;
         await activate(item.connector);
     };
-    const onTerraConnect = async (item) => {
-        console.log(availableInstallTypes, "types")
-        connect("EXTENSION")
+    const onThorchainConnect = async (item) => {
+        // console.log(item.title, "tiu")
+        if (item.title === 'TERRA STATION') {
+            connect("EXTENSION")
+        } else{
+            connect(ConnectType.CHROME_EXTENSION);
+        }
     }
     const onDeactiveWallet = () => {
         sessionStorage.close = "true";
@@ -255,11 +259,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                                 <List>
                                     {Wallets.map((item, idx) => {
                                         return (
-                                            item.title === 'Terra Wallet'?
+                                            item.connector === 'thorchain'?
                                             <ListItem
                                                 key={idx}
                                                 className="item"
-                                                onClick={() => onTerraConnect(item)}
+                                                onClick={() => onThorchainConnect(item)}
                                             >
                                                 <ListItemIcon className="symbol">
                                                     <img

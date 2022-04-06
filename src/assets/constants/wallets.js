@@ -3,6 +3,7 @@ import { injected, walletconnect } from "./connectors";
 import MetaMaskLogo from "../img/wallets/meta-mask.svg";
 import WalletConnect from "../img/wallets/wallet-connect.svg";
 import TerraWallet from "../img/wallets/terra-wallet.png";
+import XdefiWallet from "../img/wallets/xdefi-wallet.png";
 
 const Wallets = [
     {
@@ -18,10 +19,16 @@ const Wallets = [
         connector: walletconnect,
     },
     {
-        title: "Terra Wallet",
+        title: "TERRA STATION",
         description: "Connect to your Terra Wallet",
         logo: TerraWallet,
-        connector: walletconnect,
+        connector: 'thorchain',
+    },
+    {
+        title: "XDEFI WALLET",
+        description: "Connect to your XDEFI Wallet",
+        logo: XdefiWallet,
+        connector: 'thorchain',
     }
 ];
 
