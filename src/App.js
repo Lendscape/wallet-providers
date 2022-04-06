@@ -1,8 +1,14 @@
-import React from 'react'
-import Router from './routes'
+import React, { Suspense, lazy } from "react";
+import Spinner from "./components/Spinner";
 
-export default function App() {
-  return (
-    <Router />
-  )
+const Router = lazy(() => import("./Router"));
+
+const App = () => {
+    return (
+        <Suspense fallback={<Spinner />}>
+            <Router />
+        </Suspense>
+    )
 }
+
+export default App;

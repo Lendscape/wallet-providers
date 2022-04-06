@@ -1,23 +1,37 @@
-import React from 'react';
+import React, { Suspense, lazy } from "react";
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Web3ReactProvider } from '@web3-react/core';
+import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider';
+// ** Import Providers
+import MaterialThemeProvider from "./providers/theme";
+import MuiSnackbarProvider from "./providers/snackbar";
+import NotificationProvider from "./providers/notification";
+import Web3Provider from "./providers/web3";
+import Spinner from "./components/Spinner";
 
-// Import Redux
-import { Provider } from 'react-redux';
-import store from './redux/storeConfig/store'
+const App = lazy(() => import("./App"));
 
-import { getLibrary } from './utils/web3React';
 
-import App from './App';
 
-ReactDOM.render(
-  <Web3ReactProvider getLibrary={getLibrary}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </Web3ReactProvider>,
-  document.getElementById('root')
-);
+
+getChainOptions().then((chainOptions) => {
+    ReactDOM.render(
+        <React.StrictMode>
+            <MaterialThemeProvider>
+                <MuiSnackbarProvider>
+                    <NotificationProvider>
+                        <WalletProvider {...chainOptions}>
+                            <Web3Provider>
+                                <Suspense
+                                    fallback={<Spinner />}
+                                >
+                                    <App />
+                                </Suspense>
+                            </Web3Provider>
+                        </WalletProvider>,
+                    </NotificationProvider>
+                </MuiSnackbarProvider>
+            </MaterialThemeProvider>
+        </React.StrictMode>,
+      document.getElementById('root'),
+    );
+  });
