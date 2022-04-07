@@ -13,7 +13,6 @@ import {
     UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
 } from "@web3-react/walletconnect-connector";
 import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3-react/frame-connector";
-import Config from "../config/app"
 
 // Import Material UI Components
 import Box from "@mui/material/Box";
@@ -82,6 +81,25 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             setActivatingConnector(undefined);
         }
     }, [activatingConnector, connector]);
+    const request = (object, method, params) => {
+        console.debug({ object, method, params });
+        try {
+          object.request(
+            {
+              method,
+              params: params,
+            },
+            (error, result) => {
+              // request result handling
+              console.debug("callback", error, result);
+              this.lastResult = { error, result };
+            }
+          );
+        } catch (e) {
+          console.error(e);
+          this.lastResult = `Error: ${e.message}`;
+        }
+      }
     // log the walletconnect URI
     useEffect(() => {
         const logURI = (uri) => {
@@ -102,17 +120,18 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         await activate(item.connector);
     };
     const onThorchainConnect = async (item) => {
-        // console.log(item.title, "tiu")
+        
         if (item.title === 'TERRA STATION') {
+            console.log("terra")
             connect("EXTENSION")
         } else{
-            connect(ConnectType.CHROME_EXTENSION);
+            request(window.xfi.thorchain, 'request_accounts', [])
         }
     }
     const onDeactiveWallet = () => {
         sessionStorage.close = "true";
         setIsSelectingWallet(true);
-        deactivate(true);
+        deactivate(true); 
     };
     const retryConnect = (activating) => {
         setError(null);
@@ -122,7 +141,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                     method: "wallet_addEthereumChain",
                     params: [
                         {
-                            chainId: `0x${Config.netId.toString(16)}`,
+                            chainId: `0x${(97).toString(16)}`,
                             chainName: "SPIN Network",
                             rpcUrls: [
                                 "https://data-seed-prebsc-1-s1.binance.org:8545"

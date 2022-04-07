@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../assets/constants/connectors";
-import * as actions from "./_api";
 
 export function useEagerConnect() {
     const { activate, active } = useWeb3React();
@@ -82,6 +81,3 @@ export function useInactiveListener(suppress = false) {
     }, [active, error, suppress, activate]);
 }
 
-export const useApi = () => {
-    return actions;
-};
