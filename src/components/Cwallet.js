@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Keystore from "./Keystore";
 
 // ** Web3 React
 import {
@@ -6,14 +7,14 @@ import {
     UserRejectedRequestError as UserRejectedRequestErrorInjected,
 } from "@web3-react/injected-connector";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
-import { useWallet,ConnectType, WalletStatus } from '@terra-money/wallet-provider';
-
+import { useWallet } from '@terra-money/wallet-provider';
+import { generatePhrase, validatePhrase, encryptToKeyStore, decryptFromKeystore } from "@xchainjs/xchain-crypto"
 import {
     URI_AVAILABLE,
     UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
 } from "@web3-react/walletconnect-connector";
-import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3-react/frame-connector";
 
+import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3-react/frame-connector";
 // Import Material UI Components
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -46,6 +47,16 @@ import { walletconnect } from "../assets/constants/connectors";
 import { useEagerConnect, useInactiveListener } from "../hooks";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+import { bech32 } from 'bech32'
+import crypto from 'crypto'
+import hexEncoding from 'crypto-js/enc-hex'
+import ripemd160 from 'crypto-js/ripemd160'
+import sha256 from 'crypto-js/sha256'
+import * as bip39 from 'bip39'
+import { blake256 } from 'foundry-primitives'
+import { v4 as uuidv4 } from 'uuid'
+import fs from 'fs'
+
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
     const triedEager = useEagerConnect();
@@ -61,7 +72,8 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         connect,
         install,
         disconnect,
-      } = useWallet();
+    } = useWallet();
+
     const {
         activate,
         active,
@@ -74,7 +86,9 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
 
     const [activatingConnector, setActivatingConnector] = useState(false);
     const [isSelectingWallet, setIsSelectingWallet] = useState(true);
+    const [keystoreConnector, setKeystoreConnector] = useState(false);
     const cWallet = ConnectedWallet();
+    
     // ** Effects
     useEffect(() => {
         if (activatingConnector && activatingConnector === connector) {
@@ -120,12 +134,13 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         await activate(item.connector);
     };
     const onThorchainConnect = async (item) => {
-        
         if (item.title === 'TERRA STATION') {
-            console.log("terra")
             connect("EXTENSION")
-        } else{
+        } else if(item.title === 'XDEFI WALLET') {
             request(window.xfi.thorchain, 'request_accounts', [])
+        }else {
+            handleClose();
+            setKeystoreConnector(true);
         }
     }
     const onDeactiveWallet = () => {
@@ -198,6 +213,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         }
     };
     return (
+        <>
         <Dialog
             onClose={handleClose}
             open={isOpen}
@@ -365,6 +381,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                 }
             </DialogContent>
         </Dialog>
+        {
+            keystoreConnector ?
+            <Keystore isOpen={keystoreConnector} setIsOpen={setKeystoreConnector}/> :''
+        }
+        </>
     );
 };
 

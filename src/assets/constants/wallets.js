@@ -4,6 +4,8 @@ import MetaMaskLogo from "../img/wallets/meta-mask.svg";
 import WalletConnect from "../img/wallets/wallet-connect.svg";
 import TerraWallet from "../img/wallets/terra-wallet.png";
 import XdefiWallet from "../img/wallets/xdefi-wallet.png";
+import KeystoreWallet from "../img/wallets/keystore-wallet.svg";
+
 
 const Wallets = [
     {
@@ -28,6 +30,12 @@ const Wallets = [
         title: "XDEFI WALLET",
         description: "Connect to your XDEFI Wallet",
         logo: XdefiWallet,
+        connector: 'thorchain',
+    },
+    {
+        title: "KEYSTORE CONNECT",
+        description: "Connect to your keystore Wallet",
+        logo: KeystoreWallet,
         connector: 'thorchain',
     }
 ];
