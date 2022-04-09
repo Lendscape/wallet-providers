@@ -9,6 +9,8 @@
         "@mui/icons-material": "^5.2.0",
         "@mui/material": "^5.0.3",
         "@mui/styles": "^5.0.1",
+        "@terra-money/terra.js": "^3.0.10",
+        "@terra-money/wallet-controller": "^3.8.0",
         "@terra-money/wallet-provider": "^3.8.0",
         "@web3-react/core": "^6.1.9",
         "@web3-react/frame-connector": "^6.0.9",
