@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import $ from 'jquery'
 import Cwallet from "./Cwallet";
 import { useWeb3React } from "@web3-react/core";
+import Button from '@mui/material/Button';
+import useStyles from "../assets/constants/styles";
 
 const Header = () => {
+    const classes = useStyles();
     const close = () => {
         $('body').removeClass('active')
     }
@@ -21,12 +24,14 @@ const Header = () => {
     }
 
     return (
-        <header>
+        <header 
+            className={classes.Header}
+        >
             {
                 active ?
-                    <button className="button-connected" onClick={onConnectWallet}> {account.substring(0, 3)} ... {account.substring(account.length - 3)}</button>
+                    <Button variant="contained" className="button-connected" onClick={onConnectWallet}> {account.substring(0, 3)} ... {account.substring(account.length - 3)}</Button>
                     :
-                    <button className="button-connect" onClick={onConnectWallet}>Connect</button>
+                    <Button variant="contained" className="button-connect" onClick={onConnectWallet}>Connect</Button>
             }
             <Cwallet isOpen={isOpenDialog} setIsOpen={setIsOpenDialog} />
         </header>

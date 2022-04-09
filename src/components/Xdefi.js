@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Keystore from "./Keystore";
-import Xdefi from "./Xdefi";
+
 // ** Web3 React
 import {
     NoEthereumProviderError,
@@ -31,7 +31,7 @@ import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 
 // Import Assets
 import useStyles from "../assets/constants/styles";
-import { Wallets, ConnectedWallet } from "../assets/constants/wallets";
+import { Wallets, ConnectedWallet, Chains } from "../assets/constants/wallets";
 
 // Import Icons
 import CloseIcon from "@mui/icons-material/Close";
@@ -48,6 +48,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
+    const triedEager = useEagerConnect();
 
     const {
         status,
@@ -75,7 +76,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
     const [activatingConnector, setActivatingConnector] = useState(false);
     const [isSelectingWallet, setIsSelectingWallet] = useState(true);
     const [keystoreConnector, setKeystoreConnector] = useState(false);
-    const [xdefiConnector, setXdefiConnector] = useState(false);
     const cWallet = ConnectedWallet();
     
     // ** Effects
@@ -114,6 +114,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             walletconnect.off(URI_AVAILABLE, logURI);
         };
     }, []);
+    useInactiveListener(!triedEager);
     // ** Actions
     const onConnectWallet = async (item) => {
         setActivatingConnector(item.connector);
@@ -122,17 +123,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         await activate(item.connector);
     };
     const onThorchainConnect = async (item) => {
-        console.log("now", item.title)
-        if (item.title === 'TERRA STATION') {
-            connect("EXTENSION")
-        } else if(item.title === 'XDEFI WALLET') {
-            console.log("sss")
-            handleClose();
-            setXdefiConnector(true);
-        }else {
-            handleClose();
-            setKeystoreConnector(true);
-        }
+        console.log("tslsls")
     }
     const onDeactiveWallet = () => {
         sessionStorage.close = "true";
@@ -157,7 +148,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                                 symbol: "SPIN",
                                 decimals: 18,
                             },
-                            blockExplorerUrls: [
+                            blockExplorerUrls: [   
                                 "https://testnet.bscscan.com"
                             ],
                         },
@@ -216,7 +207,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         >
             <Box className="title">
                 <DialogTitle color="black">
-                    {!active ? "Select Wallet" : "Your Account"}
+                    Select Chain
                 </DialogTitle>
                 <IconButton
                     onClick={() => {
@@ -229,22 +220,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             <DialogContent className="content">
                 {active && (
                     <List>
-                        <ListItem className="item">
-                            <ListItemIcon className="symbol">
-                                <img src={cWallet.logo} alt={cWallet.name} />
-                            </ListItemIcon>
-                            <ListItemText
-                                className="description"
-                                primary={`Connected to ${cWallet.name}`}
-                            />
-                            <ListItemSecondaryAction className="action">
-                                <Tooltip arrow title="Disconnect wallet">
-                                    <IconButton size="small" onClick={onDeactiveWallet}>
-                                        <LowPriorityRoundedIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </ListItemSecondaryAction>
-                        </ListItem>
                         <ListItem className="item">
                             <ListItemIcon className="symbol">
                                 <AccountBalanceWalletRoundedIcon />
@@ -280,94 +255,47 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                 )}
                 {
                     !active && (() => {
-                        if (isSelectingWallet) {
-                            return (
-                                <List>
-                                    {Wallets.map((item, idx) => {
-                                        return (
-                                            item.connector === 'thorchain'?
-                                            <ListItem
-                                                key={idx}
-                                                className="item"
-                                                onClick={() => onThorchainConnect(item)}
-                                            >
-                                                <ListItemIcon className="symbol">
-                                                    <img
-                                                        src={item.logo}
-                                                        alt={item.logo}
-                                                    />
-                                                </ListItemIcon>
-                                                <ListItemText
-                                                    className="description"
-                                                    primary={item.title}
+                        return (
+                            <List>
+                                {Chains.map((item, idx) => {
+                                    return (
+                                        item.connector === 'thorchain'?
+                                        <ListItem
+                                            key={idx}
+                                            className="item"
+                                            onClick={() => onThorchainConnect(item)}
+                                        >
+                                            <ListItemIcon className="symbol">
+                                                <img
+                                                    src={item.logo}
+                                                    alt={item.logo}
                                                 />
-                                            </ListItem>:
-                                              <ListItem
-                                              key={idx}
-                                              className="item"
-                                              onClick={() => onConnectWallet(item)}
-                                          >
-                                              <ListItemIcon className="symbol">
-                                                  <img
-                                                      src={item.logo}
-                                                      alt={item.logo}
-                                                  />
-                                              </ListItemIcon>
-                                              <ListItemText
-                                                  className="description"
-                                                  primary={item.title}
-                                              />
-                                          </ListItem>
-                                        );
-                                    })}
-                                </List>
-                            )
-                        } else if (!isSelectingWallet) {
-                            const activating = Wallets.find(item => (item.connector === activatingConnector || item.connector === connector));
-                            return (
-                                <List>
-                                    <ListItem
-                                        className="state"
-                                    >
-                                        <ListItemIcon className="symbol">
-                                            {error ? (
-                                                <IconButton>
-                                                    <WarningRoundedIcon />
-                                                </IconButton>
-                                            ) : <CircularProgress />}
-                                        </ListItemIcon>
-                                        <ListItemText className="description">
-                                            {error ? getErrorMessage(error) : "Initializing..."}
-                                        </ListItemText>
-                                        {
-                                            error && (
-                                                <ListItemSecondaryAction>
-                                                    <IconButton onClick={() => retryConnect(activating)}>
-                                                        <ReplayIcon />
-                                                    </IconButton>
-                                                </ListItemSecondaryAction>
-                                            )
-                                        }
-                                    </ListItem>
-                                    <ListItem
-                                        className="item activating-item"
-                                        onClick={() => changeWallet(error)}
-                                    >
-                                        <ListItemIcon className="symbol">
-                                            <img
-                                                src={activating ? activating.logo : ""}
-                                                alt={activating ? activating.logo : ""}
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                className="description"
+                                                primary={item.title}
                                             />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            className="activating-description"
-                                            primary={activating ? activating.title : ""}
-                                            secondary={activating ? activating.description : ""}
-                                        />
-                                    </ListItem>
-                                </List>
-                            )
-                        }
+                                        </ListItem>:
+                                            <ListItem
+                                            key={idx}
+                                            className="item"
+                                            onClick={() => onConnectWallet(item)}
+                                        >
+                                            <ListItemIcon className="symbol">
+                                                <img
+                                                    src={item.logo}
+                                                    alt={item.logo}
+                                                />
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                className="description"
+                                                primary={item.title}
+                                            />
+                                        </ListItem>
+                                    );
+                                })}
+                            </List>
+                        )
                     })()
                 }
             </DialogContent>
@@ -375,10 +303,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         {
             keystoreConnector ?
             <Keystore isOpen={keystoreConnector} setIsOpen={setKeystoreConnector}/> :''
-        }
-        {
-            xdefiConnector ?
-            <Xdefi isOpen={xdefiConnector} setIsOpen={setXdefiConnector} />:''
         }
         </>
     );

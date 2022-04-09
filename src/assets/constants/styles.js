@@ -3,11 +3,16 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => {
     return {
+        Header:{
+            margin: theme.spacing(2,0),
+            display: "flex",
+            justifyContent: "center"
+        },
         cWallet: {
             "& .cwallet-paper": {
                 padding: theme.spacing(2),
                 width: theme.spacing(45),
-                background: '#1d0b3c',
+                background: '#101921',
                 "& .title": {
                     borderRadius: theme.shape.borderRadius,
                     display: "flex",
@@ -60,6 +65,7 @@ const useStyles = makeStyles((theme) => {
                                 borderRadius: theme.shape.borderRadius,
                                 padding: theme.spacing(1.5, 2),
                                 margin: 0,
+                                color: 'white',
                             },
                         },
                         "& .action": {
