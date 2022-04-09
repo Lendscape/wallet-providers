@@ -45,8 +45,6 @@ import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedI
 import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
 
 import { walletconnect } from "../assets/constants/connectors";
-import { useEagerConnect, useInactiveListener } from "../hooks";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { bech32 } from 'bech32'
 import crypto from 'crypto'
@@ -59,7 +57,6 @@ import { blake256 } from 'foundry-primitives'
 
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
-    const triedEager = useEagerConnect();
     const hashFunction = 'sha256'
     let fileReader;
     const {
@@ -91,7 +88,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             walletconnect.off(URI_AVAILABLE, logURI);
         };
     }, []);
-    useInactiveListener(!triedEager);
     // ** Actions
 
     const decryptFromKeystore = async (keystore, password) => {

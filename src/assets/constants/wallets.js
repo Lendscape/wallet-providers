@@ -46,28 +46,34 @@ const Wallets = [
 
 const Chains = [
     {
-        title: "THOR",
-        logo:ThorChain
+        title : "THOR",
+        logo : ThorChain,
+        choose : true
     },
     {
-        title: "BTC",
-        logo:BtcChain
+        title : "BTC",
+        logo : BtcChain,
+        choose : true
     },
     {
-        title: "BNB",
-        logo:BnbChain
+        title : "BNB",
+        logo : BnbChain,
+        choose : true
     },
     {
-        title: "DOGE",
-        logo:DogeChain
+        title : "DOGE",
+        logo : DogeChain,
+        choose : true
     },
     {
-        title: "LTC",
-        logo:LtcChain
+        title : "LTC",
+        logo : LtcChain,
+        choose : true
     },
     {
-        title: "BCG",
-        logo:BchChain
+        title : "BCG",
+        logo : BchChain,
+        choose : true
     },
 ]
 
