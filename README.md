@@ -5,10 +5,10 @@
 
 We have intergrated [Xdefi wallet](https://chrome.google.com/webstore/detail/xdefi-wallet/hmeobnfnfcmdkdcmlblgagmfpfboieaf?hl=en) and [Terra wallet](https://chrome.google.com/webstore/detail/terra-station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp/related), [Walletconnect](https://chrome-stats.com/d/djmlnjfkgolclllleomgpgodjkmnjoec), [Keystore Connect](https://www.file-extension.info/format/keystore#:~:text=KEYSTORE%20is%20a%20file%20extension,programs%20distributed%20for%20Windows%20platform.) for Thorchain connection.<br />
 We have used :<br />
-    -for Xdefi wallet, xdefi wallect connect sdk(especially it is possible to connect to multichains)
-    -for Terra wallet, [@terra-money/wallet-provider](https://www.npmjs.com/package/@terra-money/wallet-provider)
-    -for Walletconnect, [@web3-react/walletconnect-connector](npmjs.com/package/@web3-react/walletconnect-connector)
-    -for keystore, [xchainjs library](https://github.com/xchainjs/xchainjs-lib)
+    -for Xdefi wallet, xdefi wallect connect sdk(especially it is possible to connect to multichains)<br />
+    -for Terra wallet, [@terra-money/wallet-provider](https://www.npmjs.com/package/@terra-money/wallet-provider)<br />
+    -for Walletconnect, [@web3-react/walletconnect-connector](npmjs.com/package/@web3-react/walletconnect-connector)<br />
+    -for keystore, [xchainjs library](https://github.com/xchainjs/xchainjs-lib)<br />
 <img src="src/assets/img/readme/wallet.png"></img><br/>
 <img src="src/assets/img/readme/chain.png"></img>
 ## Prerequisites
