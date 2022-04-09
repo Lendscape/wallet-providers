@@ -1,4 +1,4 @@
-# Lendscape Frontend
+# Lendscape wallet provider
 
 ## Development Stack
 - React
