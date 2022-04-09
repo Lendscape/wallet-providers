@@ -64,13 +64,29 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
     const [activatingConnector, setActivatingConnector] = useState(false);
     const [isSelectingWallet, setIsSelectingWallet] = useState(true);
     const [keystoreConnector, setKeystoreConnector] = useState(false);
-    console.log(multichains, "multichains")
+    const xfiObject = window.xfi;
+
     // ** Effects
     useEffect(() => {
         if (activatingConnector && activatingConnector === connector) {
             setActivatingConnector(undefined);
         }
     }, [activatingConnector, connector]);
+
+  
+    // log the walletconnect URI
+    useEffect(() => {
+        const logURI = (uri) => {
+            console.log("WalletConnect URI", uri);
+        };
+        walletconnect.on(URI_AVAILABLE, logURI);
+
+        return () => {
+            walletconnect.off(URI_AVAILABLE, logURI);
+        };
+    }, []);
+
+    //xdefi wallect connect function
     const request = (object, method, params) => {
         console.debug({ object, method, params });
         try {
@@ -90,67 +106,15 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             this.lastResult = `Error: ${e.message}`;
         }
     }
-    // log the walletconnect URI
-    useEffect(() => {
-        const logURI = (uri) => {
-            console.log("WalletConnect URI", uri);
-        };
-        walletconnect.on(URI_AVAILABLE, logURI);
 
-        return () => {
-            walletconnect.off(URI_AVAILABLE, logURI);
-        };
-    }, []);
-    // ** Actions
-    const onConnectWallet = async (item) => {
-        setActivatingConnector(item.connector);
-        setIsSelectingWallet(false);
-        sessionStorage.close = false;
-        await activate(item.connector);
-    };
-   
-    const onDeactiveWallet = () => {
-        sessionStorage.close = "true";
-        setIsSelectingWallet(true);
-        deactivate(true);
-    };
-    const retryConnect = (activating) => {
-        setError(null);
-        if (window.ethereum) {
-            window.ethereum
-                .request({
-                    method: "wallet_addEthereumChain",
-                    params: [
-                        {
-                            chainId: `0x${(97).toString(16)}`,
-                            chainName: "SPIN Network",
-                            rpcUrls: [
-                                "https://data-seed-prebsc-1-s1.binance.org:8545"
-                            ],
-                            nativeCurrency: {
-                                name: "SPIN",
-                                symbol: "SPIN",
-                                decimals: 18,
-                            },
-                            blockExplorerUrls: [
-                                "https://testnet.bscscan.com"
-                            ],
-                        },
-                    ],
-                })
-                .then(() => {
-                    alert(
-                        "You have successfully changed to Spin Test Network.",
-                        "info"
-                    );
-                })
-                .catch((error) => {
-                    alert(error.toString(), "error");
-                });
+    const onWalletConnect = () => {
+        for(let i=0; i<multichains.length; i ++) {
+            if(multichains[i].choose === true) {
+                request(xfiObject[multichains[i].network], 'request_accounts', [])
+            }
         }
-
-        onConnectWallet(activating);
-    };
+    }
+   
     const handleClose = () => {
         setIsOpen(false);
     };
@@ -257,7 +221,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                     }
                 </DialogContent>
                 <Box className="connect">
-                    <Button variant="contained">CONNECT</Button>
+                    <Button variant="contained" onClick={() => onWalletConnect()}>CONNECT</Button>
                 </Box>
             </Dialog>
             {

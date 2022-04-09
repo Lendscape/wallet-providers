@@ -121,7 +121,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         await activate(item.connector);
     };
     const onThorchainConnect = async (item) => {
-        console.log("now", item.title)
         if (item.title === 'TERRA STATION') {
             connect("EXTENSION")
         } else if(item.title === 'XDEFI WALLET') {
@@ -138,6 +137,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         setIsSelectingWallet(true);
         deactivate(true); 
     };
+
     const retryConnect = (activating) => {
         setError(null);
         if (window.ethereum) {
@@ -175,6 +175,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
 
         onConnectWallet(activating);
     };
+
     const changeWallet = (error) => {
         if (!error) {
             return true;
@@ -183,9 +184,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             setIsSelectingWallet(true);
         }
     }
+
     const handleClose = () => {
         setIsOpen(false);
     };
+
     const getErrorMessage = (error) => {
         if (error instanceof NoEthereumProviderError) {
             return "No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.";
@@ -202,6 +205,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             return "An unknown error occurred. Check the console for more details.";
         }
     };
+
     return (
         <>
         <Dialog

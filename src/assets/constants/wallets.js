@@ -48,32 +48,38 @@ const Chains = [
     {
         title : "THOR",
         logo : ThorChain,
-        choose : true
+        choose : true,
+        network: "thorchain"
     },
     {
         title : "BTC",
         logo : BtcChain,
-        choose : true
+        choose : true,
+        network: "bitcoin"
     },
     {
         title : "BNB",
         logo : BnbChain,
-        choose : true
+        choose : true,
+        network: "binance"
     },
-    {
-        title : "DOGE",
-        logo : DogeChain,
-        choose : true
-    },
+    // {
+    //     title : "DOGE",
+    //     logo : DogeChain,
+    //     choose : true,
+    //     network : "dogecoin"
+    // },
     {
         title : "LTC",
         logo : LtcChain,
-        choose : true
+        choose : true,
+        network : "litecoin"
     },
     {
         title : "BCG",
         logo : BchChain,
-        choose : true
+        choose : true,
+        network : "bitcoincash"
     },
 ]
 
