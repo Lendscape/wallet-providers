@@ -63,12 +63,12 @@ const Chains = [
         choose : true,
         network: "binance"
     },
-    // {
-    //     title : "DOGE",
-    //     logo : DogeChain,
-    //     choose : true,
-    //     network : "dogecoin"
-    // },
+    {
+        title : "ETH",
+        logo : EthChain,
+        choose : true,
+        network : "ethereum"
+    },
     {
         title : "LTC",
         logo : LtcChain,
