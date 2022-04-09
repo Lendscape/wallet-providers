@@ -9,10 +9,15 @@ const useStyles = makeStyles((theme) => {
             justifyContent: "center"
         },
         cWallet: {
+            
             "& .cwallet-paper": {
                 padding: theme.spacing(2),
                 width: theme.spacing(45),
                 background: '#101921',
+                "& .connect":{
+                    display:"flex",
+                    justifyContent:"center"
+                },
                 "& .title": {
                     borderRadius: theme.shape.borderRadius,
                     display: "flex",

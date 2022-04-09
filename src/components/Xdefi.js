@@ -17,17 +17,14 @@ import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3
 // Import Material UI Components
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
-import Link from "@mui/material/Link";
 import Dialog from "@mui/material/Dialog";
-import Tooltip from "@mui/material/Tooltip";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
+import Button from '@mui/material/Button';
 import DialogTitle from "@mui/material/DialogTitle";
 import ListItemIcon from "@mui/material/ListItemIcon";  
 import ListItemText from "@mui/material/ListItemText";
 import DialogContent from "@mui/material/DialogContent";
-import CircularProgress from "@mui/material/CircularProgress";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 
 // Import Assets
 import useStyles from "../assets/constants/styles";
@@ -35,16 +32,9 @@ import { Wallets, ConnectedWallet, Chains } from "../assets/constants/wallets";
 
 // Import Icons
 import CloseIcon from "@mui/icons-material/Close";
-import ReplayIcon from '@mui/icons-material/Replay';
-import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import LowPriorityRoundedIcon from '@mui/icons-material/LowPriorityRounded';
-import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
-import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
 
 import { walletconnect } from "../assets/constants/connectors";
 import { useEagerConnect, useInactiveListener } from "../hooks";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
@@ -218,48 +208,12 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                 </IconButton>
             </Box>
             <DialogContent className="content">
-                {active && (
-                    <List>
-                        <ListItem className="item">
-                            <ListItemIcon className="symbol">
-                                <AccountBalanceWalletRoundedIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                className="description"
-                                primary={`${account.substring(0, 8)} ... ${account.substring(account.length - 4)}`}
-                            />
-                            <ListItemSecondaryAction className="action">
-                                <Link
-                                    href={`https://testnet.bscscan.com/address/${account}`}
-                                    target="_blank"
-                                    underline="none"
-                                >
-                                    <Tooltip arrow title="View on explorer">
-                                        <IconButton size="small">
-                                            <LaunchRoundedIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </Link>
-                                <CopyToClipboard
-                                    text={account}
-                                >
-                                    <Tooltip arrow title="Copy address">
-                                        <IconButton size="small">
-                                            <AssignmentTurnedInRoundedIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </CopyToClipboard>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
-                )}
                 {
                     !active && (() => {
                         return (
                             <List>
                                 {Chains.map((item, idx) => {
                                     return (
-                                        item.connector === 'thorchain'?
                                         <ListItem
                                             key={idx}
                                             className="item"
@@ -275,30 +229,18 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                                                 className="description"
                                                 primary={item.title}
                                             />
-                                        </ListItem>:
-                                            <ListItem
-                                            key={idx}
-                                            className="item"
-                                            onClick={() => onConnectWallet(item)}
-                                        >
-                                            <ListItemIcon className="symbol">
-                                                <img
-                                                    src={item.logo}
-                                                    alt={item.logo}
-                                                />
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                className="description"
-                                                primary={item.title}
-                                            />
                                         </ListItem>
-                                    );
-                                })}
-                            </List>
+                                )
+                                }
+                                )}
+                            </List> 
                         )
                     })()
                 }
             </DialogContent>
+            <Box className="connect">
+                <Button variant="contained">CONNECT</Button>
+            </Box>
         </Dialog>
         {
             keystoreConnector ?

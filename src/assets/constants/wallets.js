@@ -50,16 +50,8 @@ const Chains = [
         logo:ThorChain
     },
     {
-        title: "TERRA",
-        logo:TerraChain
-    },
-    {
         title: "BTC",
         logo:BtcChain
-    },
-    {
-        title: "ETC",
-        logo:EthChain
     },
     {
         title: "BNB",
