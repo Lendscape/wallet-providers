@@ -22,23 +22,21 @@ import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import Button from '@mui/material/Button';
 import DialogTitle from "@mui/material/DialogTitle";
-import ListItemIcon from "@mui/material/ListItemIcon";  
+import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DialogContent from "@mui/material/DialogContent";
 
 // Import Assets
 import useStyles from "../assets/constants/styles";
-import { Wallets, ConnectedWallet, Chains } from "../assets/constants/wallets";
+import { ConnectedWallet, Chains } from "../assets/constants/wallets";
 
 // Import Icons
 import CloseIcon from "@mui/icons-material/Close";
 
 import { walletconnect } from "../assets/constants/connectors";
-import { useEagerConnect, useInactiveListener } from "../hooks";
 
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
-    const triedEager = useEagerConnect();
 
     const {
         status,
@@ -62,12 +60,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         error,
         setError,
     } = useWeb3React();
-
+    const [multichains, setMultichains] = useState(Chains);
     const [activatingConnector, setActivatingConnector] = useState(false);
     const [isSelectingWallet, setIsSelectingWallet] = useState(true);
     const [keystoreConnector, setKeystoreConnector] = useState(false);
-    const cWallet = ConnectedWallet();
-    
+    console.log(multichains, "multichains")
     // ** Effects
     useEffect(() => {
         if (activatingConnector && activatingConnector === connector) {
@@ -77,22 +74,22 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
     const request = (object, method, params) => {
         console.debug({ object, method, params });
         try {
-          object.request(
-            {
-              method,
-              params: params,
-            },
-            (error, result) => {
-              // request result handling
-              console.debug("callback", error, result);
-              this.lastResult = { error, result };
-            }
-          );
+            object.request(
+                {
+                    method,
+                    params: params,
+                },
+                (error, result) => {
+                    // request result handling
+                    console.debug("callback", error, result);
+                    this.lastResult = { error, result };
+                }
+            );
         } catch (e) {
-          console.error(e);
-          this.lastResult = `Error: ${e.message}`;
+            console.error(e);
+            this.lastResult = `Error: ${e.message}`;
         }
-      }
+    }
     // log the walletconnect URI
     useEffect(() => {
         const logURI = (uri) => {
@@ -104,7 +101,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             walletconnect.off(URI_AVAILABLE, logURI);
         };
     }, []);
-    useInactiveListener(!triedEager);
     // ** Actions
     const onConnectWallet = async (item) => {
         setActivatingConnector(item.connector);
@@ -112,13 +108,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         sessionStorage.close = false;
         await activate(item.connector);
     };
-    const onThorchainConnect = async (item) => {
-        console.log("tslsls")
-    }
+   
     const onDeactiveWallet = () => {
         sessionStorage.close = "true";
         setIsSelectingWallet(true);
-        deactivate(true); 
+        deactivate(true);
     };
     const retryConnect = (activating) => {
         setError(null);
@@ -138,7 +132,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                                 symbol: "SPIN",
                                 decimals: 18,
                             },
-                            blockExplorerUrls: [   
+                            blockExplorerUrls: [
                                 "https://testnet.bscscan.com"
                             ],
                         },
@@ -157,17 +151,23 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
 
         onConnectWallet(activating);
     };
-    const changeWallet = (error) => {
-        if (!error) {
-            return true;
-        } else {
-            setError(null);
-            setIsSelectingWallet(true);
-        }
-    }
     const handleClose = () => {
         setIsOpen(false);
     };
+
+    const onSelectChain = (index) => {
+        const data = [...multichains];
+        console.log(data[index], "inde")
+        if(data[index].choose === true) {
+            data[index].choose = false;
+            setMultichains(data);
+        } else {
+            data[index].choose = true;
+            setMultichains(data);
+        }
+
+    }
+
     const getErrorMessage = (error) => {
         if (error instanceof NoEthereumProviderError) {
             return "No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.";
@@ -184,68 +184,86 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             return "An unknown error occurred. Check the console for more details.";
         }
     };
+
     return (
         <>
-        <Dialog
-            onClose={handleClose}
-            open={isOpen}
-            maxWidth="xs"
-            className={classes.cWallet}
-            classes={{
-                paper: "cwallet-paper"
-            }}
-        >
-            <Box className="title">
-                <DialogTitle color="black">
-                    Select Chain
-                </DialogTitle>
-                <IconButton
-                    onClick={() => {
-                        setIsOpen(false);
-                    }}
-                >
-                    <CloseIcon />
-                </IconButton>
-            </Box>
-            <DialogContent className="content">
-                {
-                    !active && (() => {
-                        return (
-                            <List>
-                                {Chains.map((item, idx) => {
-                                    return (
-                                        <ListItem
-                                            key={idx}
-                                            className="item"
-                                            onClick={() => onThorchainConnect(item)}
-                                        >
-                                            <ListItemIcon className="symbol">
-                                                <img
-                                                    src={item.logo}
-                                                    alt={item.logo}
+            <Dialog
+                onClose={handleClose}
+                open={isOpen}
+                maxWidth="xs"
+                className={classes.cWallet}
+                classes={{
+                    paper: "cwallet-paper"
+                }}
+            >
+                <Box className="title">
+                    <DialogTitle color="black">
+                        Select Chain
+                    </DialogTitle>
+                    <IconButton
+                        onClick={() => {
+                            setIsOpen(false);
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+                <DialogContent className="content">
+                    {
+                        !active && (() => {
+                            return (
+                                <List>
+                                    {multichains.map((item, idx) => {
+                                        return (
+                                            item.choose === true?
+                                            <ListItem
+                                                key={idx}
+                                                className="item-selected"
+                                                onClick={() => onSelectChain(idx)}
+                                            >
+                                                <ListItemIcon className="symbol">
+                                                    <img
+                                                        src={item.logo}
+                                                        alt={item.logo}
+                                                    />
+                                                </ListItemIcon>
+                                                <ListItemText
+                                                    className="description"
+                                                    primary={item.title}
                                                 />
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                className="description"
-                                                primary={item.title}
-                                            />
-                                        </ListItem>
-                                )
-                                }
-                                )}
-                            </List> 
-                        )
-                    })()
-                }
-            </DialogContent>
-            <Box className="connect">
-                <Button variant="contained">CONNECT</Button>
-            </Box>
-        </Dialog>
-        {
-            keystoreConnector ?
-            <Keystore isOpen={keystoreConnector} setIsOpen={setKeystoreConnector}/> :''
-        }
+                                            </ListItem>:
+                                              <ListItem
+                                              key={idx}
+                                              className="item"
+                                              onClick={() => onSelectChain(idx)}
+                                          >
+                                              <ListItemIcon className="symbol">
+                                                  <img
+                                                      src={item.logo}
+                                                      alt={item.logo}
+                                                  />
+                                              </ListItemIcon>
+                                              <ListItemText
+                                                  className="description"
+                                                  primary={item.title}
+                                              />
+                                          </ListItem>
+                                        )
+                                    }
+                                    )}
+                                </List>
+                            )
+                        })()
+                    }
+                </DialogContent>
+                <Box className="connect">
+                    <Button variant="contained">CONNECT</Button>
+                </Box>
+            </Dialog>
+            {
+                keystoreConnector ?
+                    <Keystore isOpen={keystoreConnector} setIsOpen={setKeystoreConnector} /> : ''
+            }
         </>
     );
 };

@@ -73,6 +73,36 @@ const useStyles = makeStyles((theme) => {
                                 color: 'white',
                             },
                         },
+                        "& .item-selected": {
+                            padding: theme.spacing(0.625, 2),
+                            margin: theme.spacing(2, 0),
+                            borderRadius: theme.shape.borderRadius,
+                            background: "#14353c",
+                            cursor: "pointer",
+                            "& .symbol": {
+                                minWidth: theme.spacing(5.5),
+                                "& svg": {
+                                    fontSize: theme.spacing(3.5),
+                                },
+                                "& img": {
+                                    width: `${theme.spacing(3.5)} !important`
+                                }
+                            },
+                            "& .activating-description": {
+                                borderRadius: theme.shape.borderRadius,
+                                padding: theme.spacing(0.5625, 2),
+                                margin: 0,
+                                "& p": {
+                                    fontSize: theme.spacing(1.375)
+                                }
+                            },
+                            "& .description": {
+                                borderRadius: theme.shape.borderRadius,
+                                padding: theme.spacing(1.5, 2),
+                                margin: 0,
+                                color: 'white',
+                            },
+                        },
                         "& .action": {
                             "& button": {
                                 marginRight: theme.spacing(1),
