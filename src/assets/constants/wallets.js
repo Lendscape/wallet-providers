@@ -9,11 +9,9 @@ import KeystoreWallet from "../img/wallets/keystore-wallet.svg";
 
 //chain logo
 import ThorChain from "../img/chains/thorchain.svg"
-import TerraChain from "../img/chains/terrachain.png"
 import BtcChain from "../img/chains/btcchain.png"
 import EthChain from "../img/chains/ethchain.png"
 import BnbChain from "../img/chains/bnbchain.svg"
-import DogeChain from "../img/chains/dogechain.png"
 import LtcChain from "../img/chains/ltcchain.png"
 import BchChain from "../img/chains/bchchain.png"
 
@@ -95,4 +93,4 @@ const ConnectedWallet = () => {
     }
 };
 
-export { Wallets,Chains, ConnectedWallet };
+export { Wallets, Chains, ConnectedWallet };
