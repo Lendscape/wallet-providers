@@ -2,7 +2,7 @@
 
 ## Description 
 We have made this wallet-providers project for connection to Thorchain. <br />
-This provides [Xdefi wallet](https://chrome.google.com/webstore/detail/xdefi-wallet/hmeobnfnfcmdkdcmlblgagmfpfboieaf?hl=en),[Terra wallet](https://chrome.google.com/webstore/detail/terra-station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp/related),[Walletconnect](https://chrome-stats.com/d/djmlnjfkgolclllleomgpgodjkmnjoec), [Keystore Connect](https://www.file-extension.info/format/keystore#:~:text=KEYSTORE%20is%20a%20file%20extension,programs%20distributed%20for%20Windows%20platform.) for Thorchain connection.<br />.
+This provides [Xdefi wallet](https://chrome.google.com/webstore/detail/xdefi-wallet/hmeobnfnfcmdkdcmlblgagmfpfboieaf?hl=en),[Terra wallet](https://chrome.google.com/webstore/detail/terra-station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp/related),[Walletconnect](https://chrome-stats.com/d/djmlnjfkgolclllleomgpgodjkmnjoec), [Keystore Connect](https://www.file-extension.info/format/keystore#:~:text=KEYSTORE%20is%20a%20file%20extension,programs%20distributed%20for%20Windows%20platform.) for Thorchain connection.<br />
 All developers that don't know about Thorchain well can use without problems.<br />
 
 ## Requisites
@@ -72,5 +72,7 @@ We have used :<br />
     }
 ```
 ## Some interfaces
-<img src="src/assets/img/readme/wallet.png"></img><br/>
-<img src="src/assets/img/readme/chain.png"></img>
+<div style="display:flex;">
+    <img src="src/assets/img/readme/wallet.png"></img><br/>
+    <img src="src/assets/img/readme/chain.png"></img>
+</div>
