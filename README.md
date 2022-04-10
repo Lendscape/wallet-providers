@@ -71,8 +71,13 @@ We have used :<br />
         }
     }
 ```
+<style>
+    #images{
+        display:flex;
+    }
+</style>
 ## Some interfaces
-<div style="display:flex;" id="images">
+<div id="images">
     <img src="src/assets/img/readme/wallet.png"></img><br/>
     <img src="src/assets/img/readme/chain.png"></img>
 </div>
