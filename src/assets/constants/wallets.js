@@ -18,7 +18,7 @@ import BchChain from "../img/chains/bchchain.png"
 const Wallets = [
     {
         title: "XDEFI WALLET",
-        description: "Connect to your Xdefi Wallet",
+        description: "Connect to your XDEFI Wallet",
         logo: XdefiWallet,
         connector: 'thorchain',
     },
