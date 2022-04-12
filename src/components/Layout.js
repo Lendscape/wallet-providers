@@ -7,7 +7,6 @@ const Layout = ({ children }) => {
         <div>
             <Header />
             {children}
-            {/* <ConnectSample /> */}
         </div>
     )
 }

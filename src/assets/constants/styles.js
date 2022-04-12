@@ -3,11 +3,21 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => {
     return {
+        Header:{
+            margin: theme.spacing(2,0),
+            display: "flex",
+            justifyContent: "center"
+        },
         cWallet: {
+            
             "& .cwallet-paper": {
                 padding: theme.spacing(2),
                 width: theme.spacing(45),
-                background: '#1d0b3c',
+                background: '#101921',
+                "& .connect":{
+                    display:"flex",
+                    justifyContent:"center"
+                },
                 "& .title": {
                     borderRadius: theme.shape.borderRadius,
                     display: "flex",
@@ -60,6 +70,37 @@ const useStyles = makeStyles((theme) => {
                                 borderRadius: theme.shape.borderRadius,
                                 padding: theme.spacing(1.5, 2),
                                 margin: 0,
+                                color: 'white',
+                            },
+                        },
+                        "& .item-selected": {
+                            padding: theme.spacing(0.625, 2),
+                            margin: theme.spacing(2, 0),
+                            borderRadius: theme.shape.borderRadius,
+                            background: "#14353c",
+                            cursor: "pointer",
+                            "& .symbol": {
+                                minWidth: theme.spacing(5.5),
+                                "& svg": {
+                                    fontSize: theme.spacing(3.5),
+                                },
+                                "& img": {
+                                    width: `${theme.spacing(3.5)} !important`
+                                }
+                            },
+                            "& .activating-description": {
+                                borderRadius: theme.shape.borderRadius,
+                                padding: theme.spacing(0.5625, 2),
+                                margin: 0,
+                                "& p": {
+                                    fontSize: theme.spacing(1.375)
+                                }
+                            },
+                            "& .description": {
+                                borderRadius: theme.shape.borderRadius,
+                                padding: theme.spacing(1.5, 2),
+                                margin: 0,
+                                color: 'white',
                             },
                         },
                         "& .action": {

@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-
+import Keystore from "./Keystore";
+import Xdefi from "./Xdefi";
 // ** Web3 React
 import {
     NoEthereumProviderError,
     UserRejectedRequestError as UserRejectedRequestErrorInjected,
 } from "@web3-react/injected-connector";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
-import { useWallet, WalletStatus } from '@terra-money/wallet-provider';
-
+import { useWallet } from '@terra-money/wallet-provider';
 import {
     URI_AVAILABLE,
     UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
 } from "@web3-react/walletconnect-connector";
-import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3-react/frame-connector";
-import Config from "../config/app"
 
+import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3-react/frame-connector";
 // Import Material UI Components
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -24,7 +23,7 @@ import Tooltip from "@mui/material/Tooltip";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import DialogTitle from "@mui/material/DialogTitle";
-import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemIcon from "@mui/material/ListItemIcon";  
 import ListItemText from "@mui/material/ListItemText";
 import DialogContent from "@mui/material/DialogContent";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -44,12 +43,10 @@ import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedI
 import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
 
 import { walletconnect } from "../assets/constants/connectors";
-import { useEagerConnect, useInactiveListener } from "../hooks";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
-    const triedEager = useEagerConnect();
 
     const {
         status,
@@ -62,7 +59,8 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         connect,
         install,
         disconnect,
-      } = useWallet();
+    } = useWallet();
+
     const {
         activate,
         active,
@@ -75,13 +73,35 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
 
     const [activatingConnector, setActivatingConnector] = useState(false);
     const [isSelectingWallet, setIsSelectingWallet] = useState(true);
+    const [keystoreConnector, setKeystoreConnector] = useState(false);
+    const [xdefiConnector, setXdefiConnector] = useState(false);
     const cWallet = ConnectedWallet();
+    
     // ** Effects
     useEffect(() => {
         if (activatingConnector && activatingConnector === connector) {
             setActivatingConnector(undefined);
         }
     }, [activatingConnector, connector]);
+    const request = (object, method, params) => {
+        console.debug({ object, method, params });
+        try {
+          object.request(
+            {
+              method,
+              params: params,
+            },
+            (error, result) => {
+              // request result handling
+              console.debug("callback", error, result);
+              this.lastResult = { error, result };
+            }
+          );
+        } catch (e) {
+          console.error(e);
+          this.lastResult = `Error: ${e.message}`;
+        }
+      }
     // log the walletconnect URI
     useEffect(() => {
         const logURI = (uri) => {
@@ -93,7 +113,6 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             walletconnect.off(URI_AVAILABLE, logURI);
         };
     }, []);
-    useInactiveListener(!triedEager);
     // ** Actions
     const onConnectWallet = async (item) => {
         setActivatingConnector(item.connector);
@@ -101,15 +120,24 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         sessionStorage.close = false;
         await activate(item.connector);
     };
-    const onTerraConnect = async (item) => {
-        console.log(availableInstallTypes, "types")
-        connect("EXTENSION")
+    const onThorchainConnect = async (item) => {
+        if (item.title === 'TERRA STATION') {
+            connect("EXTENSION")
+        } else if(item.title === 'XDEFI WALLET') {
+            console.log("sss")
+            handleClose();
+            setXdefiConnector(true);
+        }else {
+            handleClose();
+            setKeystoreConnector(true);
+        }
     }
     const onDeactiveWallet = () => {
         sessionStorage.close = "true";
         setIsSelectingWallet(true);
-        deactivate(true);
+        deactivate(true); 
     };
+
     const retryConnect = (activating) => {
         setError(null);
         if (window.ethereum) {
@@ -118,7 +146,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                     method: "wallet_addEthereumChain",
                     params: [
                         {
-                            chainId: `0x${Config.netId.toString(16)}`,
+                            chainId: `0x${(97).toString(16)}`,
                             chainName: "SPIN Network",
                             rpcUrls: [
                                 "https://data-seed-prebsc-1-s1.binance.org:8545"
@@ -147,6 +175,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
 
         onConnectWallet(activating);
     };
+
     const changeWallet = (error) => {
         if (!error) {
             return true;
@@ -155,9 +184,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             setIsSelectingWallet(true);
         }
     }
+
     const handleClose = () => {
         setIsOpen(false);
     };
+
     const getErrorMessage = (error) => {
         if (error instanceof NoEthereumProviderError) {
             return "No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.";
@@ -174,7 +205,9 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
             return "An unknown error occurred. Check the console for more details.";
         }
     };
+
     return (
+        <>
         <Dialog
             onClose={handleClose}
             open={isOpen}
@@ -255,11 +288,11 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                                 <List>
                                     {Wallets.map((item, idx) => {
                                         return (
-                                            item.title === 'Terra Wallet'?
+                                            item.connector === 'thorchain'?
                                             <ListItem
                                                 key={idx}
                                                 className="item"
-                                                onClick={() => onTerraConnect(item)}
+                                                onClick={() => onThorchainConnect(item)}
                                             >
                                                 <ListItemIcon className="symbol">
                                                     <img
@@ -342,6 +375,15 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                 }
             </DialogContent>
         </Dialog>
+        {
+            keystoreConnector ?
+            <Keystore isOpen={keystoreConnector} setIsOpen={setKeystoreConnector}/> :''
+        }
+        {
+            xdefiConnector ?
+            <Xdefi isOpen={xdefiConnector} setIsOpen={setXdefiConnector} />:''
+        }
+        </>
     );
 };
 
