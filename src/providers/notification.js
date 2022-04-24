@@ -4,6 +4,7 @@ import { useSnackbar } from "notistack";
 // ** Declare Notification Provider
 const NotificationProvider = ({ children }) => {
     const { enqueueSnackbar } = useSnackbar();
+    
     useEffect(() => {
         const alert = (message, variant) => {
             enqueueSnackbar(message, { variant: variant });

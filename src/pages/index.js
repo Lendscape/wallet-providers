@@ -1,13 +1,8 @@
-import React from 'react'
-import { Box } from "@mui/material"
+import React from "react";
+import { Box } from "@mui/material";
 //file
 const Home = () => {
+    return <Box></Box>;
+};
 
-  return (
-    <Box>
-
-    </Box>
-  )
-}
-
-export default Home
+export default Home;

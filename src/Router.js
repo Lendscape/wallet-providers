@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
-import Spinner from "./components/Spinner";
-import Layout from "./components/Layout";
+import Spinner from "./components/spinner";
+import Layout from "./components/layout";
 
 // ** Import Route Providers
 import { Router, Route, Switch } from "react-router-dom";
@@ -26,7 +26,7 @@ const AppRouter = () => {
                 </Switch>
             </Suspense>
         </Router>
-    )
-}
+    );
+};
 
 export default AppRouter;

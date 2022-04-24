@@ -1,6 +1,6 @@
 import React from "react";
-import {ConnectSample} from "./ConnectSample.tsx";
-import Header from "./Header";
+// import {ConnectSample} from "./ConnectSample.tsx";
+import Header from "./header";
 
 const Layout = ({ children }) => {
     return (
@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
             <Header />
             {children}
         </div>
-    )
-}
+    );
+};
 
 export default Layout;

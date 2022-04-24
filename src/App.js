@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import Spinner from "./components/Spinner";
+import Spinner from "./components/spinner";
 
 const Router = lazy(() => import("./Router"));
 

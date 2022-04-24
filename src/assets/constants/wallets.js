@@ -1,92 +1,94 @@
 import { useWeb3React } from "@web3-react/core";
 import { walletconnect } from "./connectors";
 
-//wallet logo
-import WalletConnect from "../img/wallets/wallet-connect.svg";
-import TerraWallet from "../img/wallets/terra-wallet.png";
-import XdefiWallet from "../img/wallets/xdefi-wallet.png";
-import KeystoreWallet from "../img/wallets/keystore-wallet.svg";
+// Wallet Logo
+import walletConnect from "../img/wallets/wallet-connect.svg";
+import terraWallet from "../img/wallets/terra-wallet.png";
+import xdefiWallet from "../img/wallets/xdefi-wallet.png";
+import keystoreWallet from "../img/wallets/keystore-wallet.svg";
 
-//chain logo
-import ThorChain from "../img/chains/thorchain.svg"
-import BtcChain from "../img/chains/btcchain.png"
-import EthChain from "../img/chains/ethchain.png"
-import BnbChain from "../img/chains/bnbchain.svg"
-import LtcChain from "../img/chains/ltcchain.png"
-import BchChain from "../img/chains/bchchain.png"
+// Chains Logo
+import thorChain from "../img/chains/thor.svg";
+import btcChain from "../img/chains/btc.png";
+import ethChain from "../img/chains/eth.png";
+import bnbChain from "../img/chains/bnb.svg";
+import ltcChain from "../img/chains/ltc.png";
+import bchChain from "../img/chains/bch.png";
+// import dogeChain from "../img/chains/doge.png"
+// import terraChain from "../img/chains/terra.png"
 
 const Wallets = [
     {
         title: "XDEFI WALLET",
         description: "Connect to your XDEFI Wallet",
-        logo: XdefiWallet,
-        connector: 'thorchain',
+        logo: xdefiWallet,
+        connector: "thorchain",
     },
     {
         title: "TERRA STATION",
-        description: "Connect to your Terra Wallet",
-        logo: TerraWallet,
-        connector: 'thorchain',
+        description: "Connect to your Terra Station Wallet",
+        logo: terraWallet,
+        connector: "thorchain",
     },
     {
         title: "KEYSTORE CONNECT",
         description: "Connect to your keystore Wallet",
-        logo: KeystoreWallet,
-        connector: 'thorchain',
+        logo: keystoreWallet,
+        connector: "thorchain",
     },
     {
         title: "WALLETCONNECT",
         description: "Connect to your WalletConnect Wallet",
-        logo: WalletConnect,
+        logo: walletConnect,
         connector: walletconnect,
     },
 ];
 
 const Chains = [
     {
-        title : "THOR",
-        logo : ThorChain,
-        choose : true,
-        network: "thorchain"
+        title: "THOR",
+        logo: thorChain,
+        choose: true,
+        network: "thorchain",
     },
     {
-        title : "BTC",
-        logo : BtcChain,
-        choose : true,
-        network: "bitcoin"
+        title: "BTC",
+        logo: btcChain,
+        choose: true,
+        network: "bitcoin",
     },
     {
-        title : "BNB",
-        logo : BnbChain,
-        choose : true,
-        network: "binance"
+        title: "BNB",
+        logo: bnbChain,
+        choose: true,
+        network: "binance",
     },
     {
-        title : "ETH",
-        logo : EthChain,
-        choose : true,
-        network : "ethereum"
+        title: "ETH",
+        logo: ethChain,
+        choose: true,
+        network: "ethereum",
     },
     {
-        title : "LTC",
-        logo : LtcChain,
-        choose : true,
-        network : "litecoin"
+        title: "LTC",
+        logo: ltcChain,
+        choose: true,
+        network: "litecoin",
     },
     {
-        title : "BCG",
-        logo : BchChain,
-        choose : true,
-        network : "bitcoincash"
+        title: "BCH",
+        logo: bchChain,
+        choose: true,
+        network: "bitcoincash",
     },
-]
+];
 
 const ConnectedWallet = () => {
     const { connector } = useWeb3React();
     if (connector) {
         return {
             name: "WalletConnect",
-            logo: WalletConnect,
+            logo: walletConnect,
         };
     } else {
         return {};

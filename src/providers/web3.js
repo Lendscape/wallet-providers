@@ -9,7 +9,9 @@ const Web3 = ({ children }) => {
         return library;
     }
     return (
-        <Web3ReactProvider getLibrary={getLibrary}>{children}</Web3ReactProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+            {children}
+        </Web3ReactProvider>
     );
 };
 

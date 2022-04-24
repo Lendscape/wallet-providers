@@ -1,22 +1,21 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from "@mui/styles";
 // import { backGrid, boxShadow } from "../../config/style";
 
 const useStyles = makeStyles((theme) => {
     return {
-        Header:{
-            margin: theme.spacing(2,0),
+        Header: {
+            margin: theme.spacing(2, 0),
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
         },
         cWallet: {
-            
             "& .cwallet-paper": {
                 padding: theme.spacing(2),
                 width: theme.spacing(45),
-                background: '#101921',
-                "& .connect":{
-                    display:"flex",
-                    justifyContent:"center"
+                background: "#101921",
+                "& .connect": {
+                    display: "flex",
+                    justifyContent: "center",
                 },
                 "& .title": {
                     borderRadius: theme.shape.borderRadius,
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => {
                             marginRight: theme.spacing(0.625),
                             borderRadius: theme.shape.borderRadius,
                             color: "#B8C5EC",
-                        }
+                        },
                     },
                     "& button": {
                         color: "#B8C5EC",
@@ -55,22 +54,22 @@ const useStyles = makeStyles((theme) => {
                                     fontSize: theme.spacing(3.5),
                                 },
                                 "& img": {
-                                    width: `${theme.spacing(3.5)} !important`
-                                }
+                                    width: `${theme.spacing(3.5)} !important`,
+                                },
                             },
                             "& .activating-description": {
                                 borderRadius: theme.shape.borderRadius,
                                 padding: theme.spacing(0.5625, 2),
                                 margin: 0,
                                 "& p": {
-                                    fontSize: theme.spacing(1.375)
-                                }
+                                    fontSize: theme.spacing(1.375),
+                                },
                             },
                             "& .description": {
                                 borderRadius: theme.shape.borderRadius,
                                 padding: theme.spacing(1.5, 2),
                                 margin: 0,
-                                color: 'white',
+                                color: "white",
                             },
                         },
                         "& .item-selected": {
@@ -85,30 +84,29 @@ const useStyles = makeStyles((theme) => {
                                     fontSize: theme.spacing(3.5),
                                 },
                                 "& img": {
-                                    width: `${theme.spacing(3.5)} !important`
-                                }
+                                    width: `${theme.spacing(3.5)} !important`,
+                                },
                             },
                             "& .activating-description": {
                                 borderRadius: theme.shape.borderRadius,
                                 padding: theme.spacing(0.5625, 2),
                                 margin: 0,
                                 "& p": {
-                                    fontSize: theme.spacing(1.375)
-                                }
+                                    fontSize: theme.spacing(1.375),
+                                },
                             },
                             "& .description": {
                                 borderRadius: theme.shape.borderRadius,
                                 padding: theme.spacing(1.5, 2),
                                 margin: 0,
-                                color: 'white',
+                                color: "white",
                             },
                         },
                         "& .action": {
                             "& button": {
                                 marginRight: theme.spacing(1),
-                                "& svg": {
-                                }
-                            }
+                                "& svg": {},
+                            },
                         },
                         "& .state": {
                             paddingTop: theme.spacing(4),
@@ -118,24 +116,26 @@ const useStyles = makeStyles((theme) => {
                                 justifyContent: "center",
                                 "& .MuiCircularProgress-root": {
                                     width: `${theme.spacing(3.5)}px !important`,
-                                    height: `${theme.spacing(3.5)}px !important`
-                                }
+                                    height: `${theme.spacing(
+                                        3.5
+                                    )}px !important`,
+                                },
                             },
                             "& .description": {
                                 padding: theme.spacing(1.5, 1),
-                            }
+                            },
                         },
                         "& .activating-item": {
                             marginBottom: 0,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             },
         },
         logo: {
             textShadow: "5px 3px 4px #a303db",
-            fontFamily: 'cursive !important',
-            fontWeight: "bold !important"
+            fontFamily: "cursive !important",
+            fontWeight: "bold !important",
         },
         Appbar: {
             background: "rgba(20, 14, 56, 0.9) !important",
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => {
                 // "&:hover": {
 
                 // }
-            }
+            },
         },
         Footer: {
             background: "#140e38 !important",
@@ -168,10 +168,10 @@ const useStyles = makeStyles((theme) => {
                 flexDirection: "row",
                 "& > div ": {
                     flexDirection: "row",
-                }
-            }
-        }
-    }
+                },
+            },
+        },
+    };
 });
 
 export default useStyles;
