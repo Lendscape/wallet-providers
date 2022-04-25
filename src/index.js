@@ -7,11 +7,10 @@ import MuiSnackbarProvider from "./providers/snackbar";
 import NotificationProvider from "./providers/notification";
 import Web3Provider from "./providers/web3";
 import Spinner from "./components/Spinner";
+import { Provider } from 'react-redux';
+import store from './reducers.js'
 
 const App = lazy(() => import("./App"));
-
-
-
 
 getChainOptions().then((chainOptions) => {
     ReactDOM.render(
@@ -21,13 +20,13 @@ getChainOptions().then((chainOptions) => {
                     <NotificationProvider>
                         <WalletProvider {...chainOptions}>
                             <Web3Provider>
-                                <Suspense
-                                    fallback={<Spinner />}
-                                >
-                                    <App />
+                                <Suspense fallback={<Spinner/>} >
+                                    <Provider store={store}>
+                                        <App />
+                                    </Provider>
                                 </Suspense>
                             </Web3Provider>
-                        </WalletProvider>,
+                        </WalletProvider>
                     </NotificationProvider>
                 </MuiSnackbarProvider>
             </MaterialThemeProvider>
