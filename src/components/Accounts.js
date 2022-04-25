@@ -21,7 +21,8 @@ const Accounts = () => {
 
   const walletItems = wallets.map((w, i) => 
     <Grid item xs={12} key={i}>
-      <Item>{w} is connected</Item>
+      <Item>{w.type} is connected</Item>
+      <Item>{w.addresses}</Item>
     </Grid>
   );
 

@@ -7,11 +7,10 @@ export const walletSlice = createSlice({
   },
   reducers: {
     addWallet: (state, action) => {
-      console.log(action, action.payload)
       state.value.push(action.payload)
     },
     removeWallet: (state, action) => {
-      state.value = state.value.filter(e => action.payload !== e);
+      state.value = state.value.filter(e => action.payload.type !== e.type);
     }
   },
 })

@@ -35,8 +35,12 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { walletconnect } from "../assets/constants/connectors";
 
+import { addWallet } from './../features/wallets/connectedWallets';
+import { useDispatch } from 'react-redux';
+
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const {
         status,
@@ -87,7 +91,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
     }, []);
 
     //xdefi wallect connect function
-    const request = (object, method, params) => {
+    const request = (object, method, params, title) => {
         console.debug({ object, method, params });
         try {
             object.request(
@@ -97,8 +101,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
                 },
                 (error, result) => {
                     // request result handling
-                    console.debug("callback", error, result);
-                    this.lastResult = { error, result };
+                    dispatch(addWallet({type: `XDEFI ${title}`, addresses: [result]}));
                 }
             );
         } catch (e) {
@@ -110,9 +113,10 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
     const onWalletConnect = () => {
         for(let i=0; i<multichains.length; i ++) {
             if(multichains[i].choose === true) {
-                request(xfiObject[multichains[i].network], 'request_accounts', [])
+                request(xfiObject[multichains[i].network], 'request_accounts', [], multichains[i].title)
             }
         }
+        setIsOpen(false);
     }
    
     const handleClose = () => {

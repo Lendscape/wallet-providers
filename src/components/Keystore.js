@@ -17,32 +17,18 @@ import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3
 // Import Material UI Components
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
-import Link from "@mui/material/Link";
 import Dialog from "@mui/material/Dialog";
-import Tooltip from "@mui/material/Tooltip";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import DialogTitle from "@mui/material/DialogTitle";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import DialogContent from "@mui/material/DialogContent";
-import CircularProgress from "@mui/material/CircularProgress";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
-import { InputBase } from '@mui/material';
 
 
 // Import Assets
 import useStyles from "../assets/constants/styles";
-import { Wallets, ConnectedWallet } from "../assets/constants/wallets";
 
 // Import Icons
 import CloseIcon from "@mui/icons-material/Close";
-import ReplayIcon from '@mui/icons-material/Replay';
-import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import LowPriorityRoundedIcon from '@mui/icons-material/LowPriorityRounded';
-import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
-import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
 
 import { walletconnect } from "../assets/constants/connectors";
 
@@ -57,8 +43,11 @@ import { blake256 } from 'foundry-primitives'
 import { addWallet } from './../features/wallets/connectedWallets';
 import { useDispatch } from 'react-redux';
 
+import { Client as thorchainClient } from '@xchainjs/xchain-thorchain';
+import { Network } from "@xchainjs/xchain-client";
+
 const Cwallet = ({ isOpen, setIsOpen }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const classes = useStyles();
     const hashFunction = 'sha256'
     let fileReader;
@@ -190,12 +179,10 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
 
     const handleFileRead = async(e) => {
         const content = fileReader.result;
-        console.log((content))
         let phrase = await decryptFromKeystore(JSON.parse(content), decryptionpass)
-        console.log(`Phrase: ${phrase}`)
-        let seed = getSeed(phrase)
-        console.log(seed, "seed")
-        dispatch(addWallet('keystore'))
+        const chainIds = {[Network.Mainnet]: 'thorchain-mainnet-v1', [Network.Stagenet]: 'thorchain-stagenet-v1', [Network.Testnet]: 'thorchain-testnet-v1'}
+        const client = new thorchainClient({ network: Network.Testnet, phrase, chainIds})
+        dispatch(addWallet({type: 'keystore', addresses: [client.getAddress()]}))
         setIsOpen(false);
         // … do something with the 'content' …
       };
