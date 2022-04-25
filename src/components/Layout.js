@@ -1,12 +1,13 @@
 import React from "react";
-import {ConnectSample} from "./ConnectSample.tsx";
 import Header from "./Header";
+import Accounts from "./Accounts";
 
 const Layout = ({ children }) => {
     return (
         <div>
             <Header />
             {children}
+            <Accounts />
         </div>
     )
 }

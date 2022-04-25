@@ -54,8 +54,11 @@ import sha256 from 'crypto-js/sha256'
 import * as bip39 from 'bip39'
 import { blake256 } from 'foundry-primitives'
 
+import { addWallet } from './../features/wallets/connectedWallets';
+import { useDispatch } from 'react-redux';
 
 const Cwallet = ({ isOpen, setIsOpen }) => {
+    const dispatch = useDispatch()
     const classes = useStyles();
     const hashFunction = 'sha256'
     let fileReader;
@@ -192,6 +195,7 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
         console.log(`Phrase: ${phrase}`)
         let seed = getSeed(phrase)
         console.log(seed, "seed")
+        dispatch(addWallet('keystore'))
         setIsOpen(false);
         // … do something with the 'content' …
       };

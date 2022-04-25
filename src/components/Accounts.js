@@ -2,6 +2,7 @@ import React from 'react'
 import { Grid } from "@mui/material"
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import { useSelector } from 'react-redux'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -11,16 +12,27 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-//file
-const Home = () => {
+
+const Accounts = () => {
+  const wallets = useSelector((state) => {
+    console.log(state.wallets)
+    return state.wallets.value
+  });
+
+  const walletItems = wallets.map((w, i) => 
+    <Grid item xs={12} key={i}>
+      <Item>{w} is connected</Item>
+    </Grid>
+  );
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Item>Home Page</Item>
+        <Item>Accounts</Item>
       </Grid>
+      {walletItems}
     </Grid>
   )
 }
 
-export default Home
+export default Accounts
