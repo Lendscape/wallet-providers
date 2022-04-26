@@ -7,7 +7,7 @@ import {
     UserRejectedRequestError as UserRejectedRequestErrorInjected,
 } from "@web3-react/injected-connector";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
-import { useWallet } from '@terra-money/wallet-provider';
+import { useWallet, WalletStatus, ConnectType } from '@terra-money/wallet-provider';
 import {
     URI_AVAILABLE,
     UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
@@ -45,20 +45,16 @@ import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceW
 import { walletconnect } from "../assets/constants/connectors";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+import { addWallet } from './../features/wallets/connectedWallets';
+import { useDispatch } from 'react-redux';
+
 const Cwallet = ({ isOpen, setIsOpen }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const {
-        status,
-        network,
         wallets,
-        availableConnectTypes,
-        availableInstallTypes,
-        availableConnections,
-        supportFeatures,
         connect,
-        install,
-        disconnect,
     } = useWallet();
 
     const {
@@ -122,9 +118,13 @@ const Cwallet = ({ isOpen, setIsOpen }) => {
     };
     const onThorchainConnect = async (item) => {
         if (item.title === 'TERRA STATION') {
-            connect("EXTENSION")
+            connect(ConnectType.EXTENSION)
+            if (WalletStatus.WALLET_CONNECTED) {
+                const address = wallets.map(w => w.terraAddress);
+                dispatch(addWallet({type: `TERRA STATION`, addresses: address}));
+                setIsOpen(false)
+            }
         } else if(item.title === 'XDEFI WALLET') {
-            console.log("sss")
             handleClose();
             setXdefiConnector(true);
         }else {
