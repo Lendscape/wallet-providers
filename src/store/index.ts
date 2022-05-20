@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
+import alertSlice from './alert'
 import walletSlice from './wallets'
 
 export const store = configureStore({
   reducer: {
-    walletStorage: walletSlice
+    walletStorage: walletSlice,
+    alertStorage: alertSlice
   },
 })
 

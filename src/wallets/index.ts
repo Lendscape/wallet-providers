@@ -8,6 +8,8 @@ import { useWallet, ConnectType, useConnectedWallet } from "@terra-money/wallet-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Chain } from "@xchainjs/xchain-util";
+import { LedgerClass } from "./ledger";
+import { changeAlert, close, open } from "../store/alert";
 
 const WalletsProviders = () => {
   const { connect, availableConnections } = useWallet();
@@ -66,6 +68,36 @@ const WalletsProviders = () => {
           type: XDEFIClass.connectionType,
           network: xdefiClient.getNetwork()
         }))
+      }
+    },
+    {
+      name: 'Ledger',
+      icon: LedgerClass.iconSrc,
+      type: LedgerClass.connectionType,
+      connect: async (dispatch: AppDispatch) => {
+        const ledgerClient = new LedgerClass();
+        try {
+          dispatch(changeAlert({
+            isOn: true,
+            message: 'Accept your address in the ledger.'
+          }));
+          await ledgerClient.connect();
+          dispatch(close());
+          dispatch(addWallet({
+            address: ledgerClient.getAddress(),
+            client: ledgerClient,
+            type: LedgerClass.connectionType,
+            network: 'testnet'
+          }))
+        }
+        catch (e: any) {
+          dispatch(changeAlert({
+            isOn: true,
+            message: `${e.message}`,
+            status: 'error'
+          }));
+          console.log(e)
+        }
       }
     },
     ...terraWallets

@@ -33,7 +33,6 @@ const ConnectButton: FC<Props> = () => {
     </Button>
   ));
   
-  
   return (
     <>
       <Button onClick={onOpen}>
